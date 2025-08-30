@@ -47,7 +47,8 @@ def reply_comment(r, comment, replied_database):
 	else:
 		reply_text = add_to_reply(reply_text, "it has been " + get_last_time(replied_database) + " since we've had an intellectual discussion about the 65%!")
 		reply_text = add_to_reply(reply_text, "Last mention by: " + get_last_user(replied_database) + ":")
-		reply_text = add_to_reply(reply_text, "[" + get_last_comment(replied_database) + "](" + get_last_permalink(r, replied_database) + ")")
+		reply_text = add_to_reply(reply_text, get_last_comment(replied_database))
+		reply_text = add_to_reply(reply_text, get_last_permalink(r, replied_database))
 
 	if (config.replymode == True):
 		print("Attempting to reply to comment id " + comment.id)
