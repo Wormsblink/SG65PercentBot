@@ -1,0 +1,14 @@
+import praw
+import config
+from datetime import datetime
+
+def bot_login():
+        print ("Logging in...")
+        r = praw.Reddit(username = config.username,
+                        password = config.password,
+                        client_id = config.client_id,
+                        client_secret = config.client_secret,
+                        user_agent = "Current bot version is v" + config.version)
+        print("Log in successful!")
+        print(datetime.now().strftime('%d %b %y %H:%M:%S'))
+        return r
