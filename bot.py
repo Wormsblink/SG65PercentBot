@@ -17,7 +17,7 @@ def run_bot(r):
 		if (check_comment(r, comment, replies_id, prefix_list) == True):
 			if (update_database(comment, replied_database) == True):
 				
-				reply_comment(comment, replied_database)
+				reply_comment(r, comment, replied_database)
 
 		time.sleep(10)
 
@@ -39,15 +39,15 @@ def update_database(comment, replied_database):
 		print("error replying comment id " + comment.id)
 		return False
 
-def reply_comment(comment, replied_database):
-	reply_text = "🎉 **RESET THE COUNTER!!!**"
+def reply_comment(r, comment, replied_database):
+	reply_text = "🎉 **RESET THE COUNTER!!!** 🎉"
 
 	if(replied_database.empty):
 		reply_text = add_to_reply(reply_text, "First Mention of the 65%!")
 	else:
-		reply_text = add_to_reply(reply_text, "it has been " + get_last_time(replied_database) + "since we've had an intellectual discussion about the 65%!")
+		reply_text = add_to_reply(reply_text, "it has been " + get_last_time(replied_database) + " since we've had an intellectual discussion about the 65%!")
 		reply_text = add_to_reply(reply_text, "Last mention by: " + get_last_user(replied_database) + ":")
-		reply_text = add_to_reply(reply_text, get_last_comment(replied_database))
+		reply_text = add_to_reply(reply_text, "[" + get_last_comment(replied_database) + "](" + get_last_permalink(r, replied_database) + ")")
 
 	if (config.replymode == True):
 		comment.reply(reply_text)
@@ -85,6 +85,10 @@ def get_last_comment(replied_database):
 	last_comment = replied_database.iloc[-1]["text"]
 
 	return last_comment
+
+def get_last_permalink(r, replied_database):
+	last_permalink = r.comment(replied_database.iloc[-1]["id"]).permalink
+	return last_permalink
 
 def add_to_database(comment, replied_database):
 	append_to_database = pd.DataFrame({"id": [comment.id], "text": [comment.body], "user": [comment.author.name], "time": [comment.created_utc]})
