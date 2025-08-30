@@ -50,6 +50,7 @@ def reply_comment(r, comment, replied_database):
 		reply_text = add_to_reply(reply_text, "[" + get_last_comment(replied_database) + "](" + get_last_permalink(r, replied_database) + ")")
 
 	if (config.replymode == True):
+		print("Attempting to reply to comment id " + comment.id)
 		comment.reply(reply_text)
 	else:
 		print(reply_text)
